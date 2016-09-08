@@ -4,16 +4,16 @@ import { Component, Input, Output, OnInit, ViewContainerRef, EventEmitter, ViewC
     style,
     animate,
     transition  } from '@angular/core';
- 
+
 import { IUser, ISchedule } from '../shared/interfaces';
 import { DataService } from '../shared/services/data.service';
 import { ItemsService } from '../shared/utils/items.service';
 import { NotificationService } from '../shared/utils/notification.service';
 import { ConfigService } from '../shared/utils/config.service';
 import { HighlightDirective } from '../shared/directives/highlight.directive';
- 
+
 import { ModalDirective } from 'ng2-bootstrap';
- 
+
 @Component({
     moduleId: module.id,
     selector: 'user-card',
@@ -42,7 +42,7 @@ export class UserCardComponent implements OnInit {
     @Input() user: IUser;
     @Output() removeUser = new EventEmitter();
     @Output() userCreated = new EventEmitter();
- 
+
     edittedUser: IUser;
     onEdit: boolean = false;
     apiHost: string;
@@ -59,25 +59,25 @@ export class UserCardComponent implements OnInit {
     animation: boolean = true;
     keyboard: boolean = true;
     backdrop: string | boolean = true;
- 
+
     constructor(private itemsService: ItemsService,
         private notificationService: NotificationService,
         private dataService: DataService,
         private configService: ConfigService) { }
- 
+
     ngOnInit() {
         this.apiHost = this.configService.getApiHost();
         this.edittedUser = this.itemsService.getSerialized<IUser>(this.user);
         if (this.user.id < 0)
             this.editUser();
     }
- 
+
     editUser() {
         this.onEdit = !this.onEdit;
         this.edittedUser = this.itemsService.getSerialized<IUser>(this.user);
         // <IUser>JSON.parse(JSON.stringify(this.user)); // todo Utils..
     }
- 
+
     createUser() {
         //this.slimLoader.start();
         this.dataService.createUser(this.edittedUser)
@@ -85,7 +85,7 @@ export class UserCardComponent implements OnInit {
                 this.user = this.itemsService.getSerialized<IUser>(userCreated);
                 this.edittedUser = this.itemsService.getSerialized<IUser>(this.user);
                 this.onEdit = false;
- 
+
                 this.userCreated.emit({ value: userCreated });
                 //this.slimLoader.complete();
             },
@@ -95,7 +95,7 @@ export class UserCardComponent implements OnInit {
                 //this.slimLoader.complete();
             });
     }
- 
+
     updateUser() {
         //this.slimLoader.start();
         this.dataService.updateUser(this.edittedUser)
@@ -111,7 +111,7 @@ export class UserCardComponent implements OnInit {
                 //this.slimLoader.complete();
             });
     }
- 
+
     openRemoveModal() {
         this.notificationService.openConfirmationDialog('Are you sure you want to remove '
             + this.user.name + '?',
@@ -131,7 +131,7 @@ export class UserCardComponent implements OnInit {
                     })
             });
     }
- 
+
     viewSchedules(user: IUser) {
         console.log(user);
         this.dataService.getUserSchedules(this.edittedUser.id)
@@ -146,13 +146,13 @@ export class UserCardComponent implements OnInit {
                 //this.slimLoader.complete();
                 this.notificationService.printErrorMessage('Failed to load users. ' + error);
             });
-         
+        
     }
- 
+
     public hideChildModal(): void {
         this.childModal.hide();
     }
- 
+
     opened() {
         //this.slimLoader.start();
         this.dataService.getUserSchedules(this.edittedUser.id)
@@ -168,10 +168,10 @@ export class UserCardComponent implements OnInit {
             });
         this.output = '(opened)';
     }
- 
+
     isUserValid(): boolean {
         return !(this.edittedUser.name.trim() === "")
             && !(this.edittedUser.profession.trim() === "");
     }
- 
+
 }

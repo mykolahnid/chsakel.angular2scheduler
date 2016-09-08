@@ -4,7 +4,7 @@
         <input [(ngModel)]="edittedUser.name" [class.hidden]="!onEdit" [style.color]="'brown'" required class="form-control" />
         <div class="clearfix"></div>
     </div>
- 
+
     <div highlight="whitesmoke" class="panel-body">
         <div class="">
             <img src="{{apiHost}}images/{{edittedUser.avatar}}" class="img-avatar" alt="">
@@ -41,7 +41,7 @@
         </div>
     </div>
 </div>
- 
+
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" *ngIf="userSchedulesLoaded">
         <div class="modal-content">
