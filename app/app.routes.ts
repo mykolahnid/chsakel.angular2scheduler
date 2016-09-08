@@ -1,15 +1,17 @@
-import { provideRouter  } from '@angular/router';
+import {ModuleWithProviders} from '@angular/core'
+import { Routes, RouterModule  } from '@angular/router';
  
 import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './users/user-list.component';
-import { ScheduleRoutes } from './schedules/schedule.routes';
- 
-export const routes = [
+import { ScheduleListComponent } from './schedules/schedule-list.component';
+import { ScheduleEditComponent } from './schedules/schedule-edit.component';
+
+const appRoutes:Routes = [
     ...ScheduleRoutes,
     { path: 'users', component: UserListComponent },
+    {path: 'schedules', component: ScheduleListComponent},
+    {path:'schedules/:id/edit', component:ScheduleEditComponent},
     { path: '', component: HomeComponent }
 ];
  
-export const APP_ROUTER_PROVIDERS = [
-  provideRouter(routes)
-];
+export const routing: ModuleWithProviders=RouterModule.forRoot(appRoutes);
